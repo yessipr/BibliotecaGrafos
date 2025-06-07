@@ -1,24 +1,230 @@
-# Compiled class file
-*.class
+package bibliotecagrafos;
 
-# Log file
-*.log
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+  import java.util.Scanner;
 
-# BlueJ files
-*.ctxt
+public class bibliotecaGrafos (
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
+static HasMap<Integer, String> nodos = new HashMap<>();
+static HasMap<Integer, String> tiposNodos = new HashMap<>();
+static HasMap<Integer, String> List<Integer>> grafo = new  HashMap<>();
 
-# Package Files #
-*.jar
-*.war
-*.nar
-*.ear
-*.zip
-*.tar.gz
-*.rar
+public static void main (String[] args) {
+Scanner entrada = new Scanner (System.in);
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
-replay_pid*
+int opcion;
+do{
+mostrarMenu();
+try{
+System.out.println("seleccione una opcion: ");
+opcion = Integer.parseInt(entrada.nextLine());
+
+System.out.println("seleccione una opcion: ");
+opcion = Integer.parseInt(entrada.nextLine());
+
+switch (opcion){
+case 1:
+registrarNodo(entrada "usuario")
+break
+case 2:
+registrarNodo(entrada "Libro");
+break;
+case 3:
+buscarNodo(entrada, "usuario");
+break;
+case 4:
+buscarNodo(entrada, "Libro");
+break;
+case 5:
+prestarLibro(entrada);
+break;
+case 6:
+devolverLibro(entrada);
+break;
+case 7:
+mostrarPrestamos();
+break;
+case 8:
+mostrarLibros();
+break;
+case 9:
+System.out.println("Hasta Luego");
+break;
+default:
+System.out.println("Opcion no valida");
+
+}
+{catch(NumberFormatException e) {
+System.out.println("Error: debe ingresar un numero.");
+opcion=0;
+}
+}while (opcion !=9);
+}
+
+public static void mostrarMenu() {
+System.out.println(" === SISTEMADE BIBLIOTECA CON GRAFOS ===");
+System.out.println(" 1. Registrar usuario");
+System.out.println(" 2. Registrar Libro");
+System.out.println(" 3. Buscar usuario por ID");
+System.out.println(" 4. Buscar libro por ID");
+System.out.println(" 5. Prestar el libro");
+System.out.println(" 6. Devolver el libro");
+System.out.println(" 7. Ver prestamos activos");
+System.out.println(" 8. Ver todos los libros");
+System.out.println(" 9. Salir");
+}
+
+public static void registrarNodo (scanner entrada, String tipo) {
+try{
+System.out.println(" Ingrese ID del "+tipo+": ");
+int id = Integer.parseInt(entrada.nextLine());
+
+if(nodos.containsKey(id)){
+System.out.println(" ID ya registrado!!");
+return;
+}
+System.out.println("Ingrese nombre o titulo del "+tipo+": ");
+String nombre = entrada.nextLine().trim();
+if(nombre.isEmpty()){
+System.out.println("El campo no puede estar vacio");
+return;
+}
+nodos.put(id,nombre);
+tiposNodos.put(id, tipo);
+System.out.println(tipo.substring(0,1).toUpperCase()+tipo.substring(1)+"registrado con exito!!!");
+
+}eatch(NumberFormatException e){
+System.out.println("Id invalido");
+}
+}
+
+public static void buscarNodo (Scanner entrada, String tipo) {
+
+try{
+System.out.println("Ingrese ID del "+tipo+": ");
+int id= Integer.parseInt(entrada.nextLine());
+
+if(nodos.containsKey(id) && tiposNodos.get (id).equals(tipo)) {
+System.out.println(tipo.substring(0,1).toUpperCase()+tipo.substring(1)+": "+nodos.get(id));
+}else{
+System.out.println(tipo+" no encontrado");
+}
+}catch(NumberFormatException e){
+System.out.println("id invalido");
+}
+
+}
+public static void prestarLibro(Scanner entrada) {
+try{
+System.out.println("Ingrese ID del usuario: ");
+int idUsuario = Integer.parseInt(entrada.nextLine());
+
+if(!nodos.containskey(idUsuario) || !tiposNodos.get(idUsuario).equals("usuario")){
+System.out.println("Usuario no registrado");
+return;
+}
+
+System.out.println("Ingrese ID del Libro: ");
+int idLibro = Integer.parseInt("Usuario no registrado");
+
+if(!nodos.continskey(idLibro) || !tiposNodos.get(idLibro).equals("libro")){
+System.out.println("Libro no registrado");
+return;
+}
+if(estaPrestado(idLibro)){
+System.out.println("El libro ya esta prestado");
+return;
+}
+grafo.putIfAbsent(idUsuario, new ArrayList<>());
+grafo.get(idUsuario).add(idLibro);
+System.out.println("Libro prestado correctamente al usuario"+nodos.get(idUsuario));
+
+}catch(NumberFormatEception e){
+System.out.println("Id invalido");
+}
+}
+public static boolean estaPrestado(int idLibro);
+for(List<Integer> listaLibros:grafo.values()){
+if(listaLibros.contains(idLibros)){
+return true;
+}
+}
+return false;
+public static void devolverLibro(scanner entrada){
+try{
+System.out.println("Ingrese el id del usuario: ");
+int idUsuario = Integer.parseInt(entrada.nextLine());
+
+if(!grafo.containskey(idUsuario)){
+System.out.println("El usuario no tiene libros prestados");
+return;
+}
+System.out.println("Ingrese el ID dekl libro a devolver: ");
+int idLibro = Integer.parseInt(entrada.nextLine());
+
+if(!grafo.get(idUsuario).contains(idLibro)){
+System.out.println("El usuario no tiene prestado ese libro");
+return;
+
+grafo.get(idUsuario).remove((Integer)idLibro);
+System.out.println("Libro devuelto correctamente");
+
+}catch(NumberFormatException e){
+System.out.println("Id invalido");
+}
+}
+
+public static vaoid mostrarPrestamos(){
+System.out.println("===PRESTAMOS ACTIVOS===");
+boolean hayPrestamos =false;
+
+for(Map.Entry<Integer, List<Integer>> entrada: grafo.entrySet()){
+int idUsuario = entrada.getKey();
+List<Integer> LibrosPrestados = entrada.getValue();
+
+for (int idLibro : librosPrestados){
+System.out.println("Usuario{ "+idUsuario+"] "+nodos.get(idUsuario)+ "->Libro ["+idLibro+"] "+nodos.get(idLibro));
+hayPrestamos = true;
+}
+}
+
+if(!hayPrestamos){
+System.out.println("No hay prestamos registrados !!!");
+}
+}
+
+public static void mostrarLibros(){
+System.out.println("===LISTA DE LIBROS===");
+for(Map.EntryzInteger, String> entry: nodos.entrySet()){
+int id = entry.getKey();
+if(tiposNodos.get(id)? "Prestado" :"Disponible";
+System.out.println("Libro{"+id+"] "+nodos.get(id)+ " - "+estado);
+}
+}
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
